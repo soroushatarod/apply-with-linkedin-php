@@ -1,0 +1,11 @@
+{
+  "name": "soroush/linkedin-php-oauth",
+  "autoload": {
+    "psr-0" : {
+      "Soroush\\Linkedin" : "src"
+    }
+  },
+  "require": {
+    "php": ">=5.4.0"
+  }
+}
