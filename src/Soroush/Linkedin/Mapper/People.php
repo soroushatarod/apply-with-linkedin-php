@@ -9,6 +9,8 @@
 namespace Soroush\Linkedin\Mapper;
 
 
+use Soroush\Linkedin\Mapper\Contact;
+
 class People
 {
 
@@ -23,23 +25,46 @@ class People
     protected $apiPeople;
 
 
-    public function __construct(\Soroush\Linkedin\Entity\People $people)
+    public function map($linkedinResult)
     {
-        $this->people = $people;
+        $this->apiPeople = json_decode($linkedinResult);
+        $this->people = new \Soroush\Linkedin\Entity\People();
+        $this->mapPeople();
+        $this->mapPositions();
+        $this->mapContacts();
+
+        return $this->apiPeople;
     }
 
-    public function map($apiPeople)
+
+    public function mapPeople()
     {
-        $this->apiPeople = $apiPeople;
-        $this->loadPeople();
+        $this->people->setFirstName($this->apiPeople->firstName);
+        $this->people->setlastName($this->apiPeople->lastName);
+        $this->people->setFormattedName($this->apiPeople->formattedName);
+        $this->people->setHeadline($this->apiPeople->headline);
+        $this->people->setNumConnections($this->apiPeople->numConnections);
+        $this->people->setPictureUrl($this->apiPeople->pictureUrl);
+        $this->people->setLocation($this->apiPeople->location);
     }
 
-
-    protected function loadPeople()
+    /**
+     * Map the positions of the member
+     */
+    public function mapPositions()
     {
-
-        $this->people->firstName = $this->apiPeople->first_name;
-        $this->people->lastName  = $this->apiPeople->last_name;
+        if (isset($this->apiPeople->positions)) {
+            $position = new Position();
+            $position->map($this->apiPeople->positions);
+            $this->people->setPositions($position->getMapData());
+        }
     }
+
+    public function mapContacts()
+    {
+        $contact = new Contact();
+        $this->people->contact =  $contact->map($this->apiPeople);
+    }
+
 
 }

@@ -1,0 +1,126 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
+    ],
+    "hash": "e105418b5e82d163c87b9d2c9a525c67",
+    "packages": [
+        {
+            "name": "ensepar/html2pdf",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/OwlyCode/html2pdf.git",
+                "reference": "fd4dccac3a9e27ca5960d66b48c63fa68afba40a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/OwlyCode/html2pdf/zipball/fd4dccac3a9e27ca5960d66b48c63fa68afba40a",
+                "reference": "fd4dccac3a9e27ca5960d66b48c63fa68afba40a",
+                "shasum": ""
+            },
+            "require": {
+                "ensepar/tcpdf": "5.0.003",
+                "php": ">=5.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "HTML2PDF": "."
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL"
+            ],
+            "authors": [
+                {
+                    "name": "Spipu",
+                    "homepage": "http://sourceforge.net/users/spipu",
+                    "role": "Developer"
+                },
+                {
+                    "name": "OwlyCode",
+                    "homepage": "http://www.github.com/OwlyCode",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Unofficial fork of 'html2pdf' with Composer support. (Fixed composer dependency problem)",
+            "homepage": "https://github.com/jwronsky/html2pdf",
+            "keywords": [
+                "html",
+                "html2pdf",
+                "pdf"
+            ],
+            "time": "2013-09-13 12:19:52"
+        },
+        {
+            "name": "ensepar/tcpdf",
+            "version": "5.0.003",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/OwlyCode/tcpdf.git",
+                "reference": "ae578409e9454fdf6c794cce6f063b0c95bfa518"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/OwlyCode/tcpdf/zipball/ae578409e9454fdf6c794cce6f063b0c95bfa518",
+                "reference": "ae578409e9454fdf6c794cce6f063b0c95bfa518",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "fonts",
+                    "config/lang",
+                    "config",
+                    "2dbarcodes.php",
+                    "barcodes.php",
+                    "htmlcolors.php",
+                    "qrcode.php",
+                    "tcpdf.php",
+                    "unicode_data.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPLv3"
+            ],
+            "authors": [
+                {
+                    "name": "Nicola Asuni",
+                    "email": "info@tecnick.com",
+                    "homepage": "http://nicolaasuni.tecnick.com"
+                },
+                {
+                    "name": "Tristan Maindron",
+                    "email": "tmaindron@gmail.com",
+                    "homepage": "http://www.github.com/OwlyCode"
+                }
+            ],
+            "description": "TCPDF is a PHP class for generating PDF documents.",
+            "homepage": "http://www.tcpdf.org/",
+            "keywords": [
+                "TCPDF",
+                "pdf"
+            ],
+            "time": "2013-09-12 17:00:40"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": {
+        "ensepar/html2pdf": 20
+    },
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": {
+        "php": ">=5.4.0"
+    },
+    "platform-dev": []
+}

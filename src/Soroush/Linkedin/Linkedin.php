@@ -9,6 +9,8 @@ namespace Soroush\Linkedin;
 
 use Soroush\Linkedin\Adapter\OAuth;
 use Soroush\Linkedin\Entity\People;
+use Soroush\Linkedin\Format\Format;
+use Soroush\Linkedin\Format\Pdf;
 use Soroush\Linkedin\Session\Session;
 
 class Linkedin
@@ -41,10 +43,21 @@ class Linkedin
      */
     protected $oauth;
 
+    /**
+     * @var Token
+     */
+    protected $token;
+
+    /**
+     * @var Format
+     */
+    protected  $format;
+
     public function __construct($consumerKey, $consumerSecret)
     {
         $this->consumerKey = $consumerKey;
         $this->consumerSecret = $consumerSecret;
+        $this->format = new Format();
         $this->load();
     }
 
@@ -55,6 +68,7 @@ class Linkedin
     {
         $this->oauth = new OAuth($this->consumerKey, $this->consumerSecret);
         $this->session = new Session();
+        $this->token = new Token();
         $this->setTokens();
 
     }
@@ -91,23 +105,7 @@ class Linkedin
      */
     protected function setTokens()
     {
-        $accessToken = $this->session->get('access_token');
-
-        if (empty($accessToken) && !empty($_REQUEST['oauth_token'])) {
-
-            $tokenSecret = $this->session->get('oauth_token_secret');
-            $this->oauth->setToken($_REQUEST['oauth_token'], $tokenSecret);
-
-            $this->session->set('access_token', $this->oauth->getAccessToken($this->accessTokenUrl));
-            $this->session->set('oauth_verified', $_REQUEST['oauth_verifier']);
-
-        }
-
-        if (($this->session->get('access_token') != false)) {
-            $accessToken = $this->session->get('access_token');
-            $this->oauth->setToken($accessToken['oauth_token'], $accessToken['oauth_token_secret']);
-        }
-
+        $this->token->setToken($this->session, $this->oauth, $this->accessTokenUrl);
     }
 
     /**
@@ -120,7 +118,12 @@ class Linkedin
         $people = new People();
         $request = new Request();
         $url = $request->getRequestUrl($people);
-        return $this->oauth->fetch($url);
+        $apiResult =  $this->oauth->fetch($url);
+        $peopleMapper = new \Soroush\Linkedin\Mapper\People();
+        $data = $peopleMapper->map($apiResult);
+        $this->format->setData($data);
+        return $this->format;
+
     }
 
     /**
@@ -144,8 +147,9 @@ class Linkedin
      */
     public function clearToken()
     {
-        $this->session->clear();
+        $this->token->clearToken($this->session);
     }
+
 
 
 

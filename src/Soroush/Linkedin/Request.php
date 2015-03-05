@@ -27,11 +27,27 @@ class Request
     }
 
 
+    /**
+     * Generate query string to get all the fields
+     *
+     * @param $entity
+     * @return string
+     */
     protected function allFields($entity)
     {
-        $class = get_class($entity);
-        $members = get_class_vars($class);
-        $fieldUrl = implode(',', array_keys($members));
+        $entityNameSpace = 'Soroush\Linkedin\Entity\\';
+        $entitiesAvailable = array('People', 'Contact');
+        $fieldUrl = null;
+        $count = 0;
+        foreach ($entitiesAvailable as $e) {
+            $count++;
+            $str  = $entityNameSpace .$e;
+            $members = get_class_vars($str);
+            $fieldUrl .= implode(',', array_keys($members));
+            if ($count == 1) {
+                $fieldUrl .= ',';
+            }
+        }
         return sprintf($this->linkedinApiUrl, $fieldUrl);
     }
 }

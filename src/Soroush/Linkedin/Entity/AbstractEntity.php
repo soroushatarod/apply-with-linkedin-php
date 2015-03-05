@@ -33,4 +33,11 @@ class AbstractEntity
         die();
 
     }
+
+    protected function setNull()
+    {
+
+
+
+    }
 }
