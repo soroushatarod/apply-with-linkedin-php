@@ -6,7 +6,8 @@
 namespace Soroush\Linkedin\Entity;
 
 
-class People extends AbstractEntity {
+class People extends AbstractEntity
+{
 
     /**
      * @var string Users first name
@@ -102,6 +103,12 @@ class People extends AbstractEntity {
      */
     public $siteStandardProfileRequest;
 
+    /**
+     * @var array List of members skills
+     */
+    public $skills;
+
+
     public function setPositions($positions)
     {
         $this->positions = $positions;
@@ -130,7 +137,7 @@ class People extends AbstractEntity {
 
     public function getLastName()
     {
-       return $this->lastName;
+        return $this->lastName;
 
     }
 
@@ -188,7 +195,7 @@ class People extends AbstractEntity {
 
     public function setLocation($location)
     {
-        $this->location  = $location->name;
+        $this->location = $location->name;
     }
 
     public function getLocation()
@@ -214,6 +221,25 @@ class People extends AbstractEntity {
     public function getNumConnections()
     {
         return $this->numConnections;
+    }
+
+
+    public function setSkills($skills)
+    {
+        unset($skills->_total);
+        $tmp = array();
+
+        foreach ($skills->values as $skill) {
+                $tmp[] = $skill->skill->name;
+        }
+
+        natcasesort($tmp);
+        $this->skills = $tmp;
+    }
+
+    public function getSkills()
+    {
+        return $this->skills;
     }
 
 

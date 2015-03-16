@@ -36,7 +36,7 @@ class Request
     protected function allFields($entity)
     {
         $entityNameSpace = 'Soroush\Linkedin\Entity\\';
-        $entitiesAvailable = array('People', 'Contact');
+        $entitiesAvailable = array('People', 'Contact', 'Email');
         $fieldUrl = null;
         $count = 0;
         foreach ($entitiesAvailable as $e) {
@@ -44,10 +44,9 @@ class Request
             $str  = $entityNameSpace .$e;
             $members = get_class_vars($str);
             $fieldUrl .= implode(',', array_keys($members));
-            if ($count == 1) {
-                $fieldUrl .= ',';
-            }
+            $fieldUrl .= ',';
         }
+        $fieldUrl = rtrim($fieldUrl, ",");
         return sprintf($this->linkedinApiUrl, $fieldUrl);
     }
 }

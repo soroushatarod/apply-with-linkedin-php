@@ -9,9 +9,12 @@
 namespace Soroush\Linkedin\Mapper;
 
 
+use Soroush\Linkedin\Entity\AbstractEntity;
+use Soroush\Linkedin\Mapper\Email;
 use Soroush\Linkedin\Mapper\Contact;
+use Soroush\Linkedin\Strategy\Field;
 
-class People
+class People extends AbstractEntity
 {
 
     /**
@@ -22,30 +25,34 @@ class People
     /**
      * @var array the people result from linkedin
      */
-    protected $apiPeople;
+    protected $linkedinData;
 
 
     public function map($linkedinResult)
     {
-        $this->apiPeople = json_decode($linkedinResult);
+        $this->linkedinData = json_decode($linkedinResult);
         $this->people = new \Soroush\Linkedin\Entity\People();
         $this->mapPeople();
         $this->mapPositions();
         $this->mapContacts();
-
-        return $this->apiPeople;
+        $this->mapEmail();
+        return $this->people;
     }
 
 
     public function mapPeople()
     {
-        $this->people->setFirstName($this->apiPeople->firstName);
-        $this->people->setlastName($this->apiPeople->lastName);
-        $this->people->setFormattedName($this->apiPeople->formattedName);
-        $this->people->setHeadline($this->apiPeople->headline);
-        $this->people->setNumConnections($this->apiPeople->numConnections);
-        $this->people->setPictureUrl($this->apiPeople->pictureUrl);
-        $this->people->setLocation($this->apiPeople->location);
+        $fields = $this->people->getFields();
+        Field::isNullOrEmpty($this->linkedinData, $fields);
+        $this->people->setFirstName($this->linkedinData->firstName);
+        $this->people->setlastName($this->linkedinData->lastName);
+        $this->people->setFormattedName($this->linkedinData->formattedName);
+        $this->people->setHeadline($this->linkedinData->headline);
+        $this->people->setNumConnections($this->linkedinData->numConnections);
+        $this->people->setPictureUrl($this->linkedinData->pictureUrl);
+        $this->people->setLocation($this->linkedinData->location);
+        $this->people->setSummary($this->linkedinData->summary);
+        $this->people->setSkills($this->linkedinData->skills);
     }
 
     /**
@@ -53,9 +60,9 @@ class People
      */
     public function mapPositions()
     {
-        if (isset($this->apiPeople->positions)) {
+        if (isset($this->linkedinData->positions)) {
             $position = new Position();
-            $position->map($this->apiPeople->positions);
+            $position->map($this->linkedinData->positions);
             $this->people->setPositions($position->getMapData());
         }
     }
@@ -63,7 +70,15 @@ class People
     public function mapContacts()
     {
         $contact = new Contact();
-        $this->people->contact =  $contact->map($this->apiPeople);
+        $contact->map($this->linkedinData);
+        $this->people->contact = $contact->getMapData();
+    }
+
+    public function mapEmail()
+    {
+        $email = new Email();
+        $email->map($this->linkedinData);
+        $this->people->email = $email->getMapData();
     }
 
 

@@ -12,20 +12,20 @@ namespace Soroush\Linkedin\Mapper;
 class Contact
 {
 
+    protected $contact;
+
     /**
      * @param $apiContacts
      * @return \Soroush\Linkedin\Entity\Contact
      */
     public function map($apiContacts)
     {
-        $contact = new \Soroush\Linkedin\Entity\Contact();
+        $this->contact = new \Soroush\Linkedin\Entity\Contact();
         $this->checkIfFieldIsSet($apiContacts);
-        $contact->setPhoneNumbers($apiContacts->phoneNumbers);
-        $contact->setMainAddress($apiContacts->mainAddress);
-        $contact->setImAccounts($apiContacts->imAccounts);
-        $contact->setTwitterAccounts($apiContacts->twitterAccounts);
-
-        return $contact;
+        $this->contact->setPhoneNumbers($apiContacts->phoneNumbers);
+        $this->contact->setMainAddress($apiContacts->mainAddress);
+        $this->contact->setImAccounts($apiContacts->imAccounts);
+        $this->contact->setTwitterAccounts($apiContacts->twitterAccounts);
     }
 
     protected function checkIfFieldIsSet($apiContact)
@@ -37,6 +37,10 @@ class Contact
                 $apiContact->$member = 'N/A';
             }
         }
+    }
 
+    public function getMapData()
+    {
+        return $this->contact;
     }
 }

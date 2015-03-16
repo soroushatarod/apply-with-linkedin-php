@@ -16,7 +16,7 @@ class Position
     /**
      * @var \Soroush\Linkedin\Entity\Position
      */
-    protected $position = array();
+    protected $positions = array();
 
     /**
      * @var array the positions result from linkedin
@@ -29,6 +29,9 @@ class Position
         $this->mapPositions();
     }
 
+    /**
+     *  Maps the linkedin position to Position Entity
+     */
     protected function mapPositions()
     {
         foreach ($this->apiPositions->values as $position) {
@@ -48,7 +51,17 @@ class Position
             $positionObj->isCurrent = $position->isCurrent;
 
             $positionObj->setStartDate($position->startDate);
-
+            if (isset($position->endDate)) {
+                $positionObj->calculateDurationOfEmployment($position->startDate, $position->endDate);
+                $positionObj->calculateTotalExperienceInMonths($position->startDate, $position->endDate);
+            } else {
+                $dateNow = new \DateTime();
+                $dateObj = new \stdClass();
+                $dateObj->year = $dateNow->format('Y');
+                $dateObj->month = $dateNow->format('m');
+                $positionObj->calculateDurationOfEmployment($position->startDate, $dateObj);
+                $positionObj->calculateTotalExperienceInMonths($position->startDate, $dateObj);
+            }
 
             if (!$position->isCurrent) {
                 $positionObj->setEndDate($position->endDate);
@@ -59,18 +72,19 @@ class Position
             }
 
             $positionObj->title = $position->title;
-
             $positions[] = $positionObj;
         }
-
-         $this->position = $positions;
-
+        $this->positions = $positions;
 
     }
 
+    /**
+     *
+     * @return array \Soroush\Linkedin\Entity\Position
+     */
     public function getMapData()
     {
-        return $this->position;
+        return $this->positions;
     }
 
 }

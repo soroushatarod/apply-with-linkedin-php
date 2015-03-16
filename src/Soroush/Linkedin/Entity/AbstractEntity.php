@@ -12,32 +12,12 @@ namespace Soroush\Linkedin\Entity;
 class AbstractEntity
 {
 
-    public function fieldGenerator($fields = 'all')
-    {
-        switch ($fields) {
-            case 'all':
-                $this->allFields();
-                break;
-        }
-    }
-
-    protected function allFields()
+    public function getFields()
     {
         $class = get_called_class();
         $members = get_class_vars($class);
-
-
-        $fieldUrl = implode(',', array_keys($members));
-
-        var_dump($fieldUrl);
-        die();
-
+        return $members;
     }
 
-    protected function setNull()
-    {
 
-
-
-    }
 }
