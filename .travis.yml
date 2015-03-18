@@ -6,4 +6,6 @@ before_install:
 - pecl install oauth
 before_script:
 - composer install
-script: phpunit --configuration phpunit.xml --coverage-text
+- mkdir -p build/logs
+script:
+- phpunit --coverage-clover build/logs/clover.xml

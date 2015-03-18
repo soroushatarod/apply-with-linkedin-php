@@ -1,15 +1,24 @@
 {
-  "name": "soroush/linkedin-php-oauth",
-  "description": "A linkedin php api wrapper, which generates a PDF as-well. Best to use in recruitment agencies",
-  "keywords": ["LinkedIn", "OAuth", "PDF", "API", "Client", "SDK"],
+  "name": "soroush/apply-with-linkedin-php",
+  "description": "A Linkedin wrapper, that generates a CV from users profile that can be send to consultants",
+  "keywords": [
+    "LinkedIn",
+    "OAuth",
+    "PDF",
+    "API",
+    "Client",
+    "SDK"
+  ],
   "autoload": {
-    "psr-0" : {
-      "Soroush\\Linkedin" : "src"
+    "psr-0": {
+      "Soroush\\Linkedin": "src"
     }
   },
   "require": {
     "php": ">=5.4.0",
     "ensepar/html2pdf": "dev-master"
-
+  },
+  "require-dev": {
+    "satooshi/php-coveralls": "dev-master"
   }
 }
