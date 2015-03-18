@@ -49,14 +49,25 @@ class Linkedin
     protected $token;
 
     /**
+     * @var string Url which linkedin will call when users authenticates
+     */
+    protected $callbackUrl;
+
+    /**
      * @var Format
      */
-    protected  $format;
+    protected $format;
 
-    public function __construct($consumerKey, $consumerSecret)
+    /**
+     * @param $consumerKey
+     * @param $consumerSecret
+     * @param $callbackUrl
+     */
+    public function __construct($consumerKey, $consumerSecret, $callbackUrl = null)
     {
         $this->consumerKey = $consumerKey;
         $this->consumerSecret = $consumerSecret;
+        $this->callbackUrl = $callbackUrl;
         $this->format = new Format();
         $this->load();
     }
@@ -80,9 +91,9 @@ class Linkedin
      * @param string $callbackUrl URL to be called back by linkedin
      * @return array
      */
-    public function getRequestToken($callbackUrl = null)
+    public function getRequestToken()
     {
-        $this->requestAccessToken = $this->oauth->getRequestToken($this->requestTokenUrl, $callbackUrl);
+        $this->requestAccessToken = $this->oauth->getRequestToken($this->requestTokenUrl, $this->callbackUrl);
         $this->session->set('oauth_token_secret', $this->requestAccessToken['oauth_token_secret']);
         return $this->requestAccessToken;
     }
@@ -113,12 +124,12 @@ class Linkedin
      *
      * @return object People Profile from Linkedin
      */
-    public function getPeople()
+    public function getApplication()
     {
         $people = new People();
         $request = new Request();
         $url = $request->getRequestUrl($people);
-        $apiResult =  $this->oauth->fetch($url);
+        $apiResult = $this->oauth->fetch($url);
         $peopleMapper = new \Soroush\Linkedin\Mapper\People();
         $data = $peopleMapper->map($apiResult);
         $this->format->setData($data);
@@ -149,9 +160,6 @@ class Linkedin
     {
         $this->token->clearToken($this->session);
     }
-
-
-
 
 
 }

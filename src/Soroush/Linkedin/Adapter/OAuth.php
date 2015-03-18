@@ -49,9 +49,16 @@ class OAuth
         return $this->consumerSecret;
     }
 
+    /**
+     * Get a request token
+     *
+     * @param $requestTokenUrl
+     * @param null $callbackUrl The url which linkedin will call after user logs in
+     * @return array Request token
+     */
     public function getRequestToken($requestTokenUrl, $callbackUrl = null)
     {
-        return $this->oauth->getRequestToken($requestTokenUrl);
+        return $this->oauth->getRequestToken($requestTokenUrl, $callbackUrl);
     }
 
     public function setToken($token, $tokenSecret)
