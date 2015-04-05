@@ -4,13 +4,16 @@
 
 <h2>Why should I use this library?</h2>
 <ul>
-    <li>IDE friendly:
-    The library is IDE friendly, you don't need to check linkedin website to view available fields.
-  
-    <code>
+    <li>
+    <p>IDE friendly:
+     The library is IDE friendly, you don't need to check linkedin website to view available fields. </p>
+     
+    ```php
       $linkedin->getFormattedName();
       $linkedin->getFirstName();
-    </code></li>
+      ?>
+    ```
+    </li>
     <li>
     Generates PDF from members profile
     </li>
@@ -43,7 +46,7 @@ pecl install oauth
 
 <h2>Sample code</h2>
 
-<code>
+```php
 require_once 'vendor/autoload.php';
 
 $consumerKey = '';
@@ -56,7 +59,8 @@ if ($linkedin->isLoggedIn()) {
 } else {
     echo $linkedin->getLoginUrl();
 }
-</code>
+?>
+```
 
 <h3>For complete guide visit </h3>
 <a href="http://soroushatarod.github.io/apply-with-linkedin-php/">http://soroushatarod.github.io/apply-with-linkedin-php/</a>
