@@ -4,15 +4,12 @@
 
 <h2>Why should I use this library?</h2>
 <ul>
-    <li>
-    <p>IDE friendly:
-     The library is IDE friendly, you don't need to check linkedin website to view available fields. </p>
-     
-    ```php
-      $linkedin->getFormattedName();
-      $linkedin->getFirstName();
-      ?>
-    ```
+<li>
+    You dont need to write long api calls. All api calls are handled by the library
+</li>
+    <li>IDE friendly:
+     The library is IDE friendly, you don't need to check linkedin website to view available fields
+     You can view the fields in the Entity folder
     </li>
     <li>
     Generates PDF from members profile
@@ -44,7 +41,7 @@ pecl install oauth
 </code>
 
 
-<h2>Sample code</h2>
+<h2>Sample code to download profile as PDF</h2>
 
 ```php
 require_once 'vendor/autoload.php';
@@ -59,7 +56,24 @@ if ($linkedin->isLoggedIn()) {
 } else {
     echo $linkedin->getLoginUrl();
 }
-?>
+```
+
+<h2>Sample code to get user details</h2>
+
+```php
+require_once 'vendor/autoload.php';
+
+$consumerKey = '';
+$consumerSecret = '';
+
+$linkedin = new \Soroush\Linkedin\Linkedin($consumerKey, $consumerSecret);
+
+if ($linkedin->isLoggedIn()) {
+    echo $linkedin->fetch()->profile()->getFirstName();
+    echo $linkedin->fetch()->profile()->getLastName();
+} else {
+    echo $linkedin->getLoginUrl();
+}
 ```
 
 <h3>For complete guide visit </h3>
