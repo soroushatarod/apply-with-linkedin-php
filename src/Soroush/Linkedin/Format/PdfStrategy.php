@@ -34,8 +34,7 @@ class PdfStrategy implements InterfaceFormats
      */
     public function get($data)
     {
-        $vars = array();
-        $vars = (array)$data;
+        $vars = array('profile'=>$data);
         extract($vars);
         ob_start();
         $layout = self::getTemplate();

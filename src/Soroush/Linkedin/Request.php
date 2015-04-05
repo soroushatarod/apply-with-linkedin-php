@@ -36,14 +36,15 @@ class Request
     protected function allFields($entity)
     {
         $entityNameSpace = 'Soroush\Linkedin\Entity\\';
-        $entitiesAvailable = array('People', 'Contact', 'Email');
+        $entitiesAvailable = array('Profile', 'Contact');
         $fieldUrl = null;
         $count = 0;
         foreach ($entitiesAvailable as $e) {
             $count++;
-            $str  = $entityNameSpace .$e;
-            $members = get_class_vars($str);
-            $fieldUrl .= implode(',', array_keys($members));
+            $class  = $entityNameSpace .$e;
+            $reflection = new \ReflectionClass($class);
+            $properties = array_keys($reflection->getdefaultProperties());
+            $fieldUrl .= implode(',', array_values($properties));
             $fieldUrl .= ',';
         }
         $fieldUrl = rtrim($fieldUrl, ",");

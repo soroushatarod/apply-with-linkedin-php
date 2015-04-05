@@ -48,6 +48,7 @@
             <tr>
                 <td style="width: 50%; text-align: left">
                     Linkedin Application
+                    <a href="<?php  echo $profile->getPublicProfileUrl();       ?>">Profile Link</a>
                 </td>
                 <td style="width: 50%; text-align: right">
                     <?php echo date('Y-m-d'); ?>
@@ -69,7 +70,7 @@
     <table style="width: 100%">
         <tr>
             <td style="width: 60%;">
-                Name: <?php echo $formattedName; ?>
+                Name: <?php echo $profile->getFormattedName(); ?>
             </td>
             <td style="width: 40%; text-decoration: underline">
                 Total experience:
@@ -85,26 +86,35 @@
     <table>
         <tr>
             <td style="width: 50%; text-align: left">
-                E-mail: <?php echo $email->emailAddress; ?>
+                Profile Link <a href="<?php echo $profile->getPublicProfileUrl(); ?>"><?php echo $profile->getPublicProfileUrl(); ?></a>
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 50%; text-align: left">
+                E-mail: <?php echo $profile->getEmailAddress(); ?>
             </td>
         </tr>
         <tr>
             <td style="width: 20%; text-align: left">
                 <?php
-                foreach ($contact->phoneNumbers as $number) {
-                    ?> <?php echo ucfirst($number->phoneType) ?> : <?php echo $number->phoneNumber; ?>
-                <?php }
+                $phoneNumbers = $profile->contact->getPhoneNumbers();
+                if (isset($phoneNumbers)) {
+                    foreach ($profile->contact->getPhoneNumbers() as $number) {
+                        ?> <?php echo ucfirst($number->phoneType) ?> : <?php echo $number->phoneNumber; ?>
+                    <?php }
+                }
                 ?>
+
             </td>
         </tr>
         <tr>
             <td style="width: 50%; text-align: left">
-                Location : <?php echo $location; ?>
+                Location : <?php echo $profile->getLocation(); ?>
             </td>
         </tr>
         <tr>
             <td style="width: 50%; text-align: left">
-                Headline: <?php echo $headline; ?>
+                Headline: <?php echo $profile->getHeadline(); ?>
             </td>
         </tr>
     </table>
@@ -113,13 +123,21 @@
     <table style="width: 100%">
         <tr style="vertical-align: top">
             <?php
-            $lists = array_chunk($skills, 15);
-            foreach ($lists as $skill) { ?>
+            $skills = $profile->getSkills();
+            if (isset($skills)) {
+                $lists = array_chunk($skills, 15);
+                foreach ($lists as $skill) { ?>
+                    <td style="width: 25%">
+                        <?php
+                        echo '<div><ul >';
+                        echo '<li>' . implode('</li><li>', $skill) . '</li>';
+                        echo '</ul> </div>'; ?>
+                    </td>
+                <?php
+                }
+            } else { ?>
                 <td style="width: 25%">
-                    <?php
-                    echo '<div><ul >';
-                    echo '<li>' . implode('</li><li>', $skill) . '</li>';
-                    echo '</ul> </div>'; ?>
+                    Not given
                 </td>
             <?php
             }
@@ -130,13 +148,21 @@
     <h4 style="margin-bottom: 2mm; padding-bottom:2mm;">Summary</h4>
 
     <div>
-        <?php echo $summary; ?>
+        <?php $summary = $profile->getSummary();
+        if (isset($summary)) {
+            echo $summary;
+        } else {
+            echo "not given";
+        }
+        ?>
     </div>
     <hr>
     <h4 style="margin-bottom: 3mm; padding-bottom:3mm;">Employment History (Total
         experience: <?php echo $year . ' year and ' . $month . ' month'; ?> )</h4>
     <br>
-    <?php foreach ($positions as $position) { ?>
+    <?php
+    $positions = $profile->getPositions();
+    foreach ($positions as $position) { ?>
         <div style=" border-bottom: 1px solid #DDDDDD; margin-bottom: 5mm; padding-bottom: 3mm; display: block;">
             <div><label style="font-weight: bold;">Title: </label><?php echo $position->title; ?>
             </div>

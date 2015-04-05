@@ -1,17 +1,20 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: karkton
- * Date: 02/03/2015
- * Time: 21:16
+/*
+ * Mapper for the Contact Entity
+ * @author Soroush Atarod <soroush.atarod@outlook.com>
  */
-
 namespace Soroush\Linkedin\Mapper;
 
 
-class Contact
+use Soroush\Linkedin\Entity\AbstractEntity;
+use Soroush\Linkedin\Utils\Field;
+
+class Contact extends AbstractEntity
 {
 
+    /**
+     * @var \Soroush\Linkedin\Entity\Contact
+     */
     protected $contact;
 
     /**
@@ -21,24 +24,18 @@ class Contact
     public function map($apiContacts)
     {
         $this->contact = new \Soroush\Linkedin\Entity\Contact();
-        $this->checkIfFieldIsSet($apiContacts);
+        $fields = $this->contact->getProperties();
+        Field::setNullIfFieldNotSet($apiContacts, $fields);
         $this->contact->setPhoneNumbers($apiContacts->phoneNumbers);
         $this->contact->setMainAddress($apiContacts->mainAddress);
         $this->contact->setImAccounts($apiContacts->imAccounts);
         $this->contact->setTwitterAccounts($apiContacts->twitterAccounts);
     }
 
-    protected function checkIfFieldIsSet($apiContact)
-    {
-        $classVar = get_class_vars("\Soroush\Linkedin\Entity\Contact");
-
-        foreach ($classVar as $member => $value) {
-            if (!isset($apiContact->$member)) {
-                $apiContact->$member = 'N/A';
-            }
-        }
-    }
-
+    /**
+     * Get the content details
+     * @return \Soroush\Linkedin\Entity\Contact
+     */
     public function getMapData()
     {
         return $this->contact;

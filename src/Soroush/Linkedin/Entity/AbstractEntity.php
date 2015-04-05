@@ -1,21 +1,27 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: karkton
- * Date: 22/02/2015
- * Time: 14:48
- */
 
+/**
+ * Holds abstract methods that can be used
+ * by any Entity
+ *
+ * @author Soroush Atarod <soroush.atarod@outlook.com>
+ */
 namespace Soroush\Linkedin\Entity;
 
 
 class AbstractEntity
 {
 
-    public function getFields()
+    /**
+     * Gets the properties of the class
+     *
+     * @return array
+     */
+    public function getProperties()
     {
         $class = get_called_class();
-        $members = get_class_vars($class);
+        $reflection = new \ReflectionClass($class);
+        $members = array_keys($reflection->getdefaultProperties());
         return $members;
     }
 

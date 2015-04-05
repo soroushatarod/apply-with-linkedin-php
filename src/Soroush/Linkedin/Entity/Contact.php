@@ -14,36 +14,39 @@ class Contact extends AbstractEntity
     /**
      * @var A collection of phone number objects.
      */
-    public $phoneNumbers;
+    protected $phoneNumbers;
 
     /**
      * @var A collection of accounts bound by the member.
      */
-    public $boundAccountTypes;
+    protected $boundAccountTypes;
 
     /**
      * @var  collection of instant messenger accounts associated with the member
      */
-    public $imAccounts;
+    protected $imAccounts;
 
     /**
      * @var The member's primary address.  We do not specify whether this is a work, home or other address.
      */
-    public $mainAddress;
+    protected $mainAddress;
 
     /**
      * @var A collection of Twitter accounts associated with the member
      */
-    public $twitterAccounts;
+    protected $twitterAccounts;
 
     /**
      * @var  The primary Twitter account associated with the member.
      */
-    public $primaryTwitterAccount;
+    protected $primaryTwitterAccount;
 
 
     public function setPhoneNumbers($phoneNumbers)
     {
+        if (!$phoneNumbers) {
+            return false;
+        }
         if ($phoneNumbers->_total != 0) {
             unset ($phoneNumbers->_total);
             $this->phoneNumbers = $phoneNumbers->values;
@@ -67,6 +70,10 @@ class Contact extends AbstractEntity
 
     public function setImAccounts($imAccounts)
     {
+
+        if (!$imAccounts) {
+            return false;
+        }
         if ($imAccounts->_total != 0) {
             unset ($imAccounts->_total);
             $this->imAccounts = $imAccounts->values;
@@ -90,6 +97,9 @@ class Contact extends AbstractEntity
 
     public function setTwitterAccounts($twitterAccounts)
     {
+        if (!$twitterAccounts) {
+            return false;
+        }
         if ($twitterAccounts->_total != 0) {
             unset ($twitterAccounts->_total);
             $this->twitterAccounts = $twitterAccounts->values;

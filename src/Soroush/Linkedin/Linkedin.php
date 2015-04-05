@@ -8,7 +8,7 @@ namespace Soroush\Linkedin;
 
 
 use Soroush\Linkedin\Adapter\OAuth;
-use Soroush\Linkedin\Entity\People;
+use Soroush\Linkedin\Entity\Profile;
 use Soroush\Linkedin\Format\Format;
 use Soroush\Linkedin\Format\Pdf;
 use Soroush\Linkedin\Session\Session;
@@ -52,6 +52,11 @@ class Linkedin
      * @var string Url which linkedin will call when users authenticates
      */
     protected $callbackUrl;
+
+    /**
+     * @var Profile
+     */
+    private $profile;
 
     /**
      * @var Format
@@ -120,21 +125,18 @@ class Linkedin
     }
 
     /**
-     * Gets the entire basic_profile of the member
+     * Fetches the data from linkedin
      *
-     * @return object People Profile from Linkedin
      */
-    public function getApplication()
+    public function fetch()
     {
-        $people = new People();
+        $people = new Profile();
         $request = new Request();
         $url = $request->getRequestUrl($people);
         $apiResult = $this->oauth->fetch($url);
-        $peopleMapper = new \Soroush\Linkedin\Mapper\People();
-        $data = $peopleMapper->map($apiResult);
-        $this->format->setData($data);
-        return $this->format;
-
+        $profileMapper = new \Soroush\Linkedin\Mapper\Profile();
+        $this->profile = $profileMapper->map($apiResult);
+        return $this;
     }
 
     /**
@@ -159,6 +161,23 @@ class Linkedin
     public function clearToken()
     {
         $this->token->clearToken($this->session);
+    }
+
+    /**
+     * @return \Soroush\Linkedin\Entity\Profile
+     */
+    public function getProfile()
+    {
+        return $this->profile;
+    }
+
+    public function downloadPdf($fileName = null)
+    {
+        $this->format->setData($this->profile);
+        if (!isset($fileName)) {
+           $fileName = $this->profile->getFormattedName();
+        }
+        return $this->format->asPdf($fileName, null, true);
     }
 
 

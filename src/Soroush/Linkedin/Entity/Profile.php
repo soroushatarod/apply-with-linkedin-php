@@ -6,114 +6,170 @@
 namespace Soroush\Linkedin\Entity;
 
 
-class People extends AbstractEntity
+class Profile extends AbstractEntity
 {
 
     /**
      * @var string Users first name
      */
-    public $firstName;
+    protected $firstName;
 
     /**
      * @var string Users last name
      */
-    public $lastName;
+    protected $lastName;
 
     /**
      * @var string Users maiden name
      */
-    public $maidenName;
+    protected $maidenName;
 
     /**
      * @var string Users name, formatted based on language
      */
-    public $formattedName;
+    protected $formattedName;
 
     /**
      * @var string Users first name, spelled phonetically.
      */
-    public $phoneticFirstName;
+    protected $phoneticFirstName;
 
     /**
      * @var string Users last name, spelled phonetically.
      */
-    public $phoneticLastName;
+    protected $phoneticLastName;
 
     /**
      * @var string Users headline
      */
-    public $headline;
+    protected $headline;
 
     /**
      * @var object Users physical location
      */
-    public $location;
+    protected $location;
 
     /**
      * @var object Industry the user belongs to
      */
-    public $industry;
+    protected $industry;
 
     /**
      * @var object Most recent item  user has shared on Linkedin
      */
-    public $currentShare;
+    protected $currentShare;
 
 
     /**
      * @var int number of linkedin connection the user has
      */
-    public $numConnections;
+    protected $numConnections;
 
 
     /**
      * @var boolean
      */
-    public $numConnectionsCapped;
+    protected $numConnectionsCapped;
 
     /**
      * @var string long form text area
      */
-    public $summary;
+    protected $summary;
 
 
     /**
      * @var string Short form text area describing member's specialties
      */
-    public $specialties;
+    protected $specialties;
 
 
     /**
-     * @var object User's current and past positions
+     * @var  Position
      */
-    public $positions;
+    protected $positions;
 
     /**
      * @var string URL to the user's formatted profile picture, if one has been provided
      */
-    public $pictureUrl;
+    protected $pictureUrl;
 
     /**
      * @var string URL to the user's original unformatted profile picture;
      */
-    public $pictureUrls;
+    protected $pictureUrls;
 
     /**
      * @var string URL to the user's authenticated profile on Linkedin
      */
-    public $siteStandardProfileRequest;
+    protected $siteStandardProfileRequest;
 
     /**
      * @var array List of members skills
      */
-    public $skills;
+    protected $skills;
+
+    /**
+     * @var string Members e-mail address
+     */
+    protected $emailAddress;
+
+    /**
+     * @var string Members public profile URL
+     */
+    protected $publicProfileUrl;
 
 
+    /**
+     * @var array Members three past position
+     */
+    protected $threePastPositions;
+
+
+    /**
+     * Sets the members public linkedin profile URL
+     *
+     * @param $url string Members public url
+     */
+    public function setPublicProfileUrl($url)
+    {
+        $this->publicProfileUrl = $url;
+    }
+
+    public function getPublicProfileUrl()
+    {
+        return $this->publicProfileUrl;
+    }
+
+    /**
+     * Set the three Past position of the member
+     * @param $threePastPosition
+     */
+    public function setThreePastPositions($threePastPosition)
+    {
+        $this->threePastPositions = $threePastPosition;
+    }
+
+    /**
+     * Get the three past position of the member
+     * @return array
+     */
+    public function getThreePastPositions()
+    {
+        return $this->threePastPositions;
+    }
+
+    /**
+     * @param $positions
+     */
     public function setPositions($positions)
     {
         $this->positions = $positions;
     }
 
+
+    /**
+     * @return Position
+     */
     public function getPositions()
     {
         return $this->positions;
@@ -226,6 +282,10 @@ class People extends AbstractEntity
 
     public function setSkills($skills)
     {
+        if (! $skills) {
+            return false;
+        }
+
         unset($skills->_total);
         $tmp = array();
 
@@ -240,6 +300,16 @@ class People extends AbstractEntity
     public function getSkills()
     {
         return $this->skills;
+    }
+
+    public function setEmailAddress($email)
+    {
+        $this->emailAddress = $email;
+    }
+
+    public function getEmailAddress()
+    {
+        return $this->emailAddress;
     }
 
 

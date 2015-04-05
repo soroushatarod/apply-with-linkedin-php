@@ -16,7 +16,7 @@ class Format
     public function asPdf($fileName, $template = null, $outputHtml = false)
     {
         $pdf = new PdfStrategy();
-
+        $fileName .= '.pdf';
         if (isset($template)) {
             $pdf->setTemplate($template);
         }
