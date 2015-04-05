@@ -13,6 +13,16 @@ class Format
     }
 
 
+    /**
+     * Download or Display members application as PDF
+     *
+     * @param string $fileName The pdf filename, if not given, it will be members first name and last name
+     * @param string $template  Template to use, if not given will use frameworks template
+     * @param bool   $outputHtml    TRUE will display PDF in browser, FALSE will save PDF
+     * @return bool
+     *
+     * @throws \Exception
+     */
     public function asPdf($fileName, $template = null, $outputHtml = false)
     {
         $pdf = new PdfStrategy();
@@ -30,22 +40,6 @@ class Format
         }
 
         return true;
-    }
-
-    /**
-     * Get the linkedin application as JSON
-     */
-    public function asJson()
-    {
-
-    }
-
-    /**
-     * Get the linkedin application as XML
-     */
-    public function asXml()
-    {
-
     }
 
 }

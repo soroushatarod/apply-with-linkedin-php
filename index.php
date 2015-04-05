@@ -3,17 +3,14 @@
 require_once 'vendor/autoload.php';
 
 
-$consumerKey =  '';
+$consumerKey = '';
 $consumerSecret = '';
 
 $linkedin = new \Soroush\Linkedin\Linkedin($consumerKey, $consumerSecret);
 
 
-$linkedin->clearToken();
-
 if ($linkedin->isLoggedIn()) {
-    $people = $linkedin->getPeople();
-    echo $people;
+    echo $linkedin->fetch()->getProfile()->getFirstName();
 } else {
     echo $linkedin->getLoginUrl();
 }

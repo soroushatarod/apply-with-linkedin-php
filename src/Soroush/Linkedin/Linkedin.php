@@ -171,13 +171,22 @@ class Linkedin
         return $this->profile;
     }
 
-    public function downloadPdf($fileName = null)
+
+    /**
+     * Download the members application as PDF
+     *
+     * @param string $fileName The pdf filename, if not given, it will be members first name and last name
+     * @param string $template  Template to use, if not given will use frameworks template
+     * @param bool $displayInBrowser    TRUE will display PDF in browser, FALSE will save PDF
+     * @return bool
+     */
+    public function downloadPdf($fileName = null, $template = null, $displayInBrowser = false)
     {
         $this->format->setData($this->profile);
         if (!isset($fileName)) {
            $fileName = $this->profile->getFormattedName();
         }
-        return $this->format->asPdf($fileName, null, true);
+        return $this->format->asPdf($fileName, $template, $displayInBrowser);
     }
 
 

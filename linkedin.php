@@ -8,5 +8,6 @@ $consumerSecret = '';
 
 
 $linkedin = new \Soroush\Linkedin\Linkedin($consumerKey, $consumerSecret);
+$member = $linkedin->fetch()->downloadPdf();
 
-$linkedin->getApplication()->asPdf('pdfs/linkedin-application.pdf');
+
