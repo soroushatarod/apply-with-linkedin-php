@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTf-8"?>
+
+<project name="your-project-name-here" default="build">
+
+    <!-- intended to be ran before upload to the CI server -->
+    <!--<target name="pre-upload" depends="phpcs, phpmd" />-->
+
+    <target name="build" depends="lint"/>
+
+
+    <target name="lint"  unless="lint.done" description="Perform syntax check of sourcecode files">
+        <apply executable="php" failonerror="true">
+            <arg value="-l" />
+
+            <fileset file="${basedir}/index.php">
+            </fileset>
+
+
+        </apply>
+        <property name="lint.done" value="true"/>
+    </target>
+
+</project>
